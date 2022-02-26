@@ -5,4 +5,4 @@ const Article = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now, required: true },
 });
 
-module.export = Article;
+module.exports = Article;

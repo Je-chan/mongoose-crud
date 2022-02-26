@@ -1,4 +1,6 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
+const { ServerApiVersion } = require('mongodb');
 const schema = require('./schema');
 
 const db = mongoose.connection;
@@ -11,7 +13,7 @@ const model = (() => {
 
   // Atlas mongoDB cluster 와 연결
   mongoose.connect(
-    `mongodb+srv://${process.env.MONGOOSE_ID}:${process.env.MONGOOSE_DB_PASSWORD}@mongodb-crud.g6uxj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+    `mongodb+srv://${process.env.MONGOOSE_ID}:${process.env.MONGOOSE_PASSWORD}@mongodb-crud.g6uxj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
   );
 
   // 스키마 연결
