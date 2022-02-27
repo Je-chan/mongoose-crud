@@ -4,7 +4,9 @@ const { Article } = require('../mongoose/model');
 // CREATE
 
 const articleCreate = async (req, res) => {
-  console.log(req.body);
+  console.log('=======================================');
+
+  console.log('req', req.body);
   const { content } = req.body;
 
   // api 요청으로 받은 데이터를 Model 에 접목시켜서 객체를 하나 만듦
@@ -13,7 +15,6 @@ const articleCreate = async (req, res) => {
   // 아래의 과정으로 DB 에 저장한다.
   const saveRequest = await newArticle.save();
 
-  console.log(saveRequest);
   res.send(saveRequest);
 };
 
@@ -23,6 +24,13 @@ const articleRead = async (req, res) => {
   // find 는 쿼리 검색. 객체 안에 특정 조건들을 넣을 수 있다.
   const articles = await Article.find({});
   res.send(articles);
+};
+
+const articleFindOne = async (req, res) => {
+  const { id } = req.params;
+  console.log(req.params);
+  const article = await Article.findById(id);
+  res.send(article);
 };
 
 // UPDATE
@@ -44,6 +52,7 @@ const articleDelete = async (req, res) => {
 
 module.exports = {
   articleCreate,
+  articleFindOne,
   articleRead,
   articleUpdate,
   articleDelete,

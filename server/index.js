@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
   res.send('이거는 되지롱');
 });
 app.get('/read', Article.articleRead);
-
+app.get('/read/:id', Article.articleFindOne);
 // ! POST
 app.post('/create', Article.articleCreate);
 

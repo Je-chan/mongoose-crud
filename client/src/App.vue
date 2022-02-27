@@ -1,19 +1,10 @@
 <template>
-<div></div>
+<RouterView></RouterView>
 </template>
 
 <script>
-import axios from 'axios'
 export default {
-  name: 'App',
-  setup() {
-    const getArticle = async () => {
-      const {data} = await axios.get('/read')
-      console.log(data)
-    }
-    
-    getArticle()
-  }
+
 }
 </script>
 
