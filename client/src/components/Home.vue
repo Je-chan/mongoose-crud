@@ -7,15 +7,19 @@
     </div>
     <h2>작성된 게시글</h2>
     <ul>
-      <li v-for="a in articles" :key="a._id">{{a.content}}</li>
+      <Card v-for="a in articles" :key="a._id" :article="a" @update="updateCard" @delete="deleteCard"/> 
     </ul>
   </div>
 </template>
 <script>
 import axios from 'axios'
 import {onMounted, ref} from 'vue'
+import Card from '@/components/Card'
 
 export default {
+  components: {
+    Card
+  },
   name: 'Home',
   setup() {
     const articles = ref([])
@@ -42,6 +46,21 @@ export default {
       articles.value = [...articles.value, data]
       content.value =''
     }
+
+    const updateCard = ({content, id}) => {
+      const idx = articles.value.findIndex(v => v._id === id)
+      if(idx >-1) {
+        articles.value[idx].content = content
+      }
+    }
+
+    const deleteCard = (id) => {
+        const idx = articles.value.findIndex(v => v._id === id)
+      if(idx >-1) {
+        articles.value.splice(idx, 1)
+      }
+    }
+
     onMounted(async () => {
       getArticle()
       console.log(content)
@@ -51,6 +70,8 @@ export default {
       articles,
       content,
       createArticle,
+      updateCard,
+      deleteCard
     }
   }
 }
