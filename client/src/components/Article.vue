@@ -1,25 +1,24 @@
 <template>
   <div>
     <div class="card">
-      <div class="content">
-        {{article.content}}
-      </div>
-      <div class="created-at">
-        {{article.createdAt}}
-      </div>
+      <Card :article = "article" @update="updateCard" @delete="moveToHome"/>
     </div>
   </div>
 </template>
 <script>
 import axios from 'axios'
 import {onMounted, ref} from 'vue'
-import {useRoute} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
+import Card from '@/components/Card.vue'
 
 export default {
   name: "Article",
+  components: {
+    Card
+  },
   setup() {
-
     const route = useRoute()
+    const router = useRouter()
     const article = ref({
       id: null,
       content: null,
@@ -33,13 +32,23 @@ export default {
         article.value = {...data}
       }
 
+    const updateCard = ({content}) => {
+      article.value.content = content
+    }
+
+    const moveToHome = () => {
+      router.push('/')
+    }
+
     onMounted(async () => {
       await findOneArticle()
     })
     
 
     return {
-      article
+      article,
+      updateCard,
+      moveToHome
     }
   }
 }

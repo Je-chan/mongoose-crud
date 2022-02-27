@@ -3,15 +3,18 @@
     <div class="content" v-if="!isEditing">{{article.content}}</div>
     <textarea v-else class="content" v-model="content"></textarea>
     <div class="createdAt">{{formattedDay}}</div>
+    <button @click="moveToArticle">이동</button>
     <button @click="toggleTextArea">{{isEditing ? '수정 취소' : '수정'}}</button>
     <button v-if="!isEditing" @click="deleteArticle">삭제</button>
     <button v-else @click="updateArticle">수정 완료</button>
   </article>
 </template>
 <script>
+
 import dayjs from 'dayjs'
 import { ref } from '@vue/reactivity'
 import axios from 'axios'
+import {useRouter} from 'vue-router'
 
 export default {
   props: {
@@ -25,6 +28,7 @@ export default {
   },
 
   setup (props, context) {
+    const router = useRouter()
     const formattedDay = dayjs(props.article.createdAt).format('M월 D일 HH:mm:ss')
     const content = ref(props.article.content)
     const isEditing = ref(false)
@@ -49,13 +53,18 @@ export default {
       context.emit('delete', props.article._id)
     }
 
+    const moveToArticle = () => {
+      router.push(`/${props.article._id}`)
+    }
+
     return {
       formattedDay,
       content,
       isEditing,
       toggleTextArea,
       updateArticle,
-      deleteArticle
+      deleteArticle,
+      moveToArticle
     }
   }
 }
